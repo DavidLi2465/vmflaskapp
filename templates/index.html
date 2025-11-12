@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Azure Blob Uploader</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    h1, h2 { color: #005A9E; }
+    .container { max-width: 600px; margin: auto; padding: 1em; border: 1px solid #ccc; border-radius: 5px; }
+    input, button { padding: 0.5em; }
+    ul { list-style-type: none; padding: 0; }
+    li { background: #f4f4f4; margin: 10px 0; padding: 10px; text-align: center; }
+    img { max-width: 100%; height: auto; border-radius: 4px; }
+    .caption { font-size: 0.9em; color: #555; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload File to Azure Blob Storage</h1>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <button type="submit">Upload</button>
+    </form>
+
+    <form method="get" action="/upload">
+      <button type="submit">Refresh Page</button>
+    </form>
+
+    <hr>
+    <h2>Files in Original Container</h2>
+    <ul>
+      {% for blob in blobs %}
+        {% if blob.originalURL %}
+          <li>
+            <img src="{{ blob.originalURL }}" alt="Original Image">
+            {% if blob.caption %}
+              <div class="caption">{{ blob.caption }}</div>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    <h2>Files in Thumbnail Container</h2>
+    <ul>
+      {% for thumb in thumbnails %}
+        {% if thumb.thumbnailURL %}
+          <li>
+            <img src="{{ thumb.thumbnailURL }}" alt="Thumbnail Image" style="max-width: 150px;">
+            {% if thumb.caption %}
+              <div class="caption">{{ thumb.caption }}</div>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
+
