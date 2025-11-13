@@ -33,7 +33,7 @@
     </form>
 
     <hr>
-    <h2>Original Picture (in Original Blob)</h2>
+    <h2>Original Picture (in Original Blob container)</h2>
     <ul>
       {% for blob in blobs %}
         {% if blob.originalURL %}
@@ -47,7 +47,7 @@
       {% endfor %}
     </ul>
 
-    <h2>Compress Picture (in Thumbnail Blob)</h2>
+    <h2>Compress Picture (in Thumbnail Blob container)</h2>
     <ul>
       {% for thumb in thumbnails %}
         {% if thumb.thumbnailURL %}
