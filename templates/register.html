@@ -1,13 +1,52 @@
-<!doctype html>
-<html>
-<head><title>Register</title></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --accent:#a78bfa; --text:#e5e7eb; --muted:#9ca3af; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:linear-gradient(145deg,#0b1020,#0f172a 60%,#111827); color:var(--text); }
+    .wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+    .card { width:100%; max-width:420px; background:rgba(17,24,39,0.85); backdrop-filter: blur(6px);
+            border:1px solid rgba(167,139,250,0.25); border-radius:14px; padding:28px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    h1 { margin:0 0 16px; font-size:1.6rem; }
+    p.sub { margin:0 0 24px; color:var(--muted); font-size:0.95rem; }
+    label { display:block; margin:14px 0 6px; font-weight:600; }
+    input[type="text"], input[type="password"] {
+      width:100%; padding:12px 14px; border:1px solid rgba(229,231,235,0.15); border-radius:10px;
+      background:#0b1220; color:var(--text); outline:none;
+    }
+    input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(167,139,250,0.18); }
+    .row { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top:18px; }
+    button {
+      appearance:none; border:0; background:linear-gradient(135deg,#c084fc,#8b5cf6);
+      color:#0b1020; font-weight:700; padding:12px 16px; border-radius:10px; cursor:pointer;
+      box-shadow: 0 8px 20px rgba(139,92,246,0.28); transition: transform .06s ease;
+    }
+    button:active { transform: translateY(1px); }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+  </style>
+</head>
 <body>
-  <h1>Register</h1>
-  <form method="post">
-    <label>Username:</label><input type="text" name="username"><br>
-    <label>Password:</label><input type="password" name="password"><br>
-    <button type="submit">Register</button>
-  </form>
-  <a href="{{ url_for('login') }}">Back to Login</a>
+  <div class="wrap">
+    <form class="card" method="post" action="{{ url_for('register') }}">
+      <h1>Create account</h1>
+      <p class="sub">Pick a username and password to get started.</p>
+
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" required autocomplete="username" />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required autocomplete="new-password" />
+
+      <div class="row">
+        <button type="submit">Sign up</button>
+        <a href="{{ url_for('login') }}">Back to sign in</a>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

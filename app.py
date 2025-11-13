@@ -97,7 +97,6 @@ def upload_file():
     """, (session['user_id'],))
     originals = cursor.fetchall()
 
-    # 查询缩略图（只取有 thumbnailURL 的记录）
     cursor.execute("""
         SELECT thumbnailURL, caption
         FROM images

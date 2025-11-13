@@ -1,61 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Azure Blob Uploader</title>
+  <meta charset="UTF-8" />
+  <title>Your images</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: sans-serif; margin: 2em; }
-    h1, h2 { color: #005A9E; }
-    .container { max-width: 600px; margin: auto; padding: 1em; border: 1px solid #ccc; border-radius: 5px; }
-    input, button { padding: 0.5em; }
-    ul { list-style-type: none; padding: 0; }
-    li { background: #f4f4f4; margin: 10px 0; padding: 10px; text-align: center; }
-    img { max-width: 100%; height: auto; border-radius: 4px; }
-    .caption { font-size: 0.9em; color: #555; margin-top: 5px; }
+    :root { --bg:#0f172a; --card:#0b1220; --accent:#22d3ee; --text:#e5e7eb; --muted:#9ca3af; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:linear-gradient(145deg,#0b1020,#0f172a 60%,#111827); color:var(--text); }
+    header { display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid rgba(255,255,255,0.08); }
+    header h1 { margin:0; font-size:1.4rem; }
+    .container { max-width:1100px; margin:0 auto; padding:22px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:16px; }
+    .card { background:rgba(11,18,32,0.85); backdrop-filter: blur(6px); border:1px solid rgba(34,211,238,0.18);
+            border-radius:12px; padding:14px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    .upload { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:22px; background:rgba(11,18,32,0.6); border:1px dashed rgba(34,211,238,0.3); padding:16px; border-radius:12px; }
+    input[type="file"] { color:var(--muted); }
+    button {
+      appearance:none; border:0; background:linear-gradient(135deg,#22d3ee,#0ea5e9);
+      color:#0b1020; font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;
+      box-shadow: 0 8px 20px rgba(34,211,238,0.25); transition: transform .06s ease;
+    }
+    button:active { transform: translateY(1px); }
+    .section-title { margin:18px 0 10px; color:var(--muted); font-weight:600; letter-spacing:.3px; }
+    .imgwrap { width:100%; aspect-ratio: 1 / 1; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:10px; background:#0a1528; border:1px solid rgba(255,255,255,0.06); }
+    .imgwrap img { max-width:100%; max-height:100%; object-fit:contain; }
+    .caption { margin-top:8px; font-size:.9rem; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    a.link { color:var(--accent); text-decoration:none; }
+    a.link:hover { text-decoration:underline; }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Your images</h1>
+    <nav><a class="link" href="{{ url_for('login') }}">Sign out</a></nav>
+  </header>
+
   <div class="container">
-    <h1>Upload File to Azure Blob Storage</h1>
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="file">
+    <form class="upload" method="post" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+      <strong>Upload:</strong>
+      <input type="file" name="file" accept=".png,.jpg,.jpeg,.webp" required />
       <button type="submit">Upload</button>
+      <small style="color:var(--muted)">PNG/JPG/WebP up to your Blob limits.</small>
     </form>
 
-    <form method="get" action="/upload">
-      <button type="submit">Refresh Page</button>
-    </form>
-
-    <hr>
-    <h2>Files in Original Container</h2>
-    <ul>
-      {% for blob in blobs %}
-        {% if blob.originalURL %}
-          <li>
-            <img src="{{ blob.originalURL }}" alt="Original Image">
-            {% if blob.caption %}
-              <div class="caption">{{ blob.caption }}</div>
-            {% endif %}
-          </li>
+    <h2 class="section-title">Thumbnails</h2>
+    <div class="grid">
+      {% for t in thumbnails %}
+      <div class="card">
+        <div class="imgwrap">
+          <img src="{{ t.thumbnailURL }}" alt="{{ t.caption or 'thumbnail' }}" loading="lazy">
+        </div>
+        {% if t.caption %}
+          <div class="caption">{{ t.caption }}</div>
         {% endif %}
+      </div>
+      {% else %}
+        <div class="card"><div class="caption">No thumbnails yet.</div></div>
       {% endfor %}
-    </ul>
+    </div>
 
-    <h2>Files in Thumbnail Container</h2>
-    <ul>
-      {% for thumb in thumbnails %}
-        {% if thumb.thumbnailURL %}
-          <li>
-            <img src="{{ thumb.thumbnailURL }}" alt="Thumbnail Image" style="max-width: 150px;">
-            {% if thumb.caption %}
-              <div class="caption">{{ thumb.caption }}</div>
-            {% endif %}
-          </li>
+    <h2 class="section-title">Originals</h2>
+    <div class="grid">
+      {% for b in blobs %}
+      <div class="card">
+        <div class="imgwrap">
+          <img src="{{ b.originalURL }}" alt="{{ b.caption or 'original' }}" loading="lazy">
+        </div>
+        {% if b.caption %}
+          <div class="caption">{{ b.caption }}</div>
         {% endif %}
+      </div>
+      {% else %}
+        <div class="card"><div class="caption">No originals yet. Upload an image above.</div></div>
       {% endfor %}
-    </ul>
+    </div>
   </div>
 </body>
 </html>
-
