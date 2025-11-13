@@ -30,3 +30,4 @@ jobs:
           script: |
             cd /home/${{ secrets.VM_USER }}/projectapp
             source venv/bin/activate
+            sudo systemctl restart flaskapp
