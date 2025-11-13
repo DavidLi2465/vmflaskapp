@@ -19,9 +19,9 @@
   <div class="container">
     <h1>Upload pit picture to Azure Blob Storage to compress</h1>
 
-    <form method="get" action="{{ url_for('logout') }}">
-      <button type="submit">Logout</button>
-    </form>
+    <a href="{{ url_for('login') }}">
+  <button type="button">Sign out</button>
+    </a>
 
     <form method="post" enctype="multipart/form-data">
       <input type="file" name="file">
