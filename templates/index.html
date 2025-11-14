@@ -5,35 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Azure Blob Uploader</title>
   <style>
-    body { font-family: sans-serif; margin: 2em; }
-    h1, h2 { color: #005A9E; }
-    .container { max-width: 600px; margin: auto; padding: 1em; border: 1px solid #ccc; border-radius: 5px; }
-    input, button { padding: 0.5em; }
-    ul { list-style-type: none; padding: 0; }
-    li { background: #f4f4f4; margin: 10px 0; padding: 10px; text-align: center; }
-    img { max-width: 100%; height: auto; border-radius: 4px; }
-    .caption { font-size: 0.9em; color: #555; margin-top: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 0;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 700px;
+      max-width: 90%;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #005A9E;
+      margin-bottom: 20px;
+    }
+    form {
+      margin: 15px 0;
+      text-align: center;
+    }
+    input[type="file"] {
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #f9f9f9;
+      margin: 10px 0;
+      padding: 10px;
+      text-align: center;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .caption {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 5px;
+    }
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Upload pet animal picture to Azure Blob Storage to compress</h1>
+    <h1>Pet Image Compression App</h1>
 
-    <a href="{{ url_for('login') }}">
-  <button type="button">Sign out</button>
-    </a>
+    <div class="top-actions">
+      <form method="get" action="/upload">
+        <button type="submit">Refresh Page</button>
+      </form>
+      <a href="{{ url_for('login') }}">
+        <button type="button">Sign out</button>
+      </a>
+    </div>
 
     <form method="post" enctype="multipart/form-data">
-      <input type="file" name="file">
+      <input type="file" name="file" required>
       <button type="submit">Upload</button>
     </form>
 
-    <form method="get" action="/upload">
-      <button type="submit">Refresh Page</button>
-    </form>
-
     <hr>
-    <h2>Original Picture (in Original Blob container)</h2>
+    <h2>Original Pictures</h2>
     <ul>
       {% for blob in blobs %}
         {% if blob.originalURL %}
@@ -47,7 +108,7 @@
       {% endfor %}
     </ul>
 
-    <h2>Compress Picture (in Thumbnail Blob container)</h2>
+    <h2>Compressed Pictures</h2>
     <ul>
       {% for thumb in thumbnails %}
         {% if thumb.thumbnailURL %}
@@ -63,4 +124,3 @@
   </div>
 </body>
 </html>
-
