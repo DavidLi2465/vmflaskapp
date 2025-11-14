@@ -43,6 +43,8 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 "
 
+---
+
 ### Update SSH Configuration
 Edit:
 "
@@ -96,6 +98,8 @@ pip install -r requirements.txt
 
 Create .env file in vm. Copy the code from .env in zip folder and paste it in vm's .env.
 
+---
+
 ## systemd Service Configuration
 In vm, create /etc/systemd/system/flaskapp.service:
 "
@@ -133,6 +137,8 @@ sudo systemctl status flaskapp
 The Flask app remains running at all times, even if you close the SSH session or reboot the VM.
 When new code is pushed to GitHub, GitHub Actions automatically deploys the changes to the VM according to the .github/workflows/deploy.yml file.
 After deployment, the workflow restarts the flaskapp service, ensuring the application is always running and updated to the latest version.
+
+---
 
 ## cron Job Configuration
 Edit crontab:
