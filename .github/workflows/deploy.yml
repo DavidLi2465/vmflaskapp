@@ -30,4 +30,5 @@ jobs:
           script: |
             cd /home/${{ secrets.VM_USER }}/projectapp
             source venv/bin/activate
+            pip install -r requirements.txt
             sudo systemctl restart flaskapp
