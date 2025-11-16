@@ -111,30 +111,13 @@ Create .env file in vm. Copy the code from .env in zip folder and paste it in vm
 ---
 
 ## systemd Service Configuration
+The flaskapp.service file is included as an example systemd configuration. In actual deployment, copy it to /etc/systemd/system/ on the VM and replace environment variable values with real credentials.
 In vm, create /etc/systemd/system/flaskapp.service:
 "
-[Unit]
-Description=Flask App
-After=network.target
-
-[Service]
-User=David
-WorkingDirectory=/home/David/projectapp
-Environment="PATH=/home/David/projectapp/venv/bin"
-Environment="DB_HOST=groupmysql.mysql.database.azure.com"
-Environment="DB_USER=groupmysql"
-Environment="DB_PASSWORD=Abc123456789"
-Environment="DB_NAME=groupdatabase"
-Environment="DB_PORT=3306"
-Environment="SSL_CA=/home/groupvm/DigiCertGlobalRootG2.crt.pem"
-Environment="AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=groupblob;AccountKey=Xc0LDYPWjFwJukTt8OE6UfanHi5aZfbQXqDxgeYv+hABJnOPffe5qOihjkKEzmXQ2kCuZsMGhcFX+AStVcvGSQ==;EndpointSuffix=core.windows.net"
-Environment="FLASK_SECRET_KEY=mysupersecretkey"
-ExecStart=/home/David/projectapp/venv/bin/python app.py
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
+sudo nano /etc/systemd/system/flaskapp.service
 "
+
+copy and paste the code in Flaskapp services
 
 Enable and start:
 "
