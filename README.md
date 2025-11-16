@@ -25,6 +25,24 @@ Deployment is automated with GitHub Actions (CI/CD), while systemd manages the F
 5. .env a environment variables which need to nano create in vm.
 6. DigiCertGlobalRootG2.crt.pem ,a database SSL certificate.
 7. .github/workflows/deploy.yml ,an CI/CD configuration
+8. flaskapp.service – systemd service configuration file, used to run the Flask application in the background on the VM and automatically restart it after code updates.
+9. .env required variables:
+     1 DB_HOST – MySQL host address 
+     2 DB_USER – MySQL username 
+     3 DB_PASSWORD – MySQL password 
+     4 DB_NAME – Database name 
+     5 DB_PORT – MySQL port 
+     6 SSL_CA – Path to SSL certificate 
+     7 AZURE_STORAGE_CONNECTION_STRING – Azure Blob connection string
+     8 FLASK_SECRET_KEY – Flask session key 
+10. flaskapp.service Key sections:
+     1 [Unit] – Service description and dependencies
+     2 [Service] –
+     3 User – VM username 
+     4 Environment – Environment variables (same as .env values)
+     5 ExecStart – Command to start Flask app
+     6 Restart=always , Ensures service restarts automatically if it fails
+     7 [Install] – Target for enabling service 
 
 ## SSH Setup and GitHub Secrets
 
@@ -150,4 +168,5 @@ Add:
 "
 Now compress.py would be run to compress the picture and generate the information each 2 minutes.
 
-
+## Live Web Application
+Live Application: http://4.233.76.170:5000/register
